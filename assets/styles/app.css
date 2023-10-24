@@ -90,6 +90,19 @@ h1{
 }
 #img_right{
     width: 300px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+#descListe{
+    margin-top: 20px;
+        padding-left: 20px; 
+}
+.button{
+    width: 151px;
+    height: 40px;
+    margin: auto;
+    display: flex;
 }
 #connectez_vous{
    display: flex;
@@ -120,6 +133,92 @@ margin-bottom: .625rem;
 #name{
     color: white;
 }
+/* FORMULAIRE */
+.body_form {
+    display: flex;
+    justify-content: center;
+    background-image: url("./formFond.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    max-width: 100%;
+    height: auto;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+    width: 45%;
+    margin: auto;
+    border-radius: 5px;
+  }
+  form h1{
+    color: #ffffff;
+  }
+  .form .input-span {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  
+  form input[type="text"],
+  form input[type="password"],
+  form input[type="mail"] {
+    border-radius: 0.5rem;
+    padding: 1rem 0.75rem;
+    width: 100%;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #9c9c9ce1;
+    outline: 2px solid #707070;
+  }
+  
+  form input[type="text"]:focus,
+  form input[type="password"]:focus {
+    outline: 2px solid #002feb;
+  }
+  
+  .label {
+    align-self: flex-start;
+    color: #ffffff;
+    font-weight: 600;
+  }
+  
+  form .submit {
+    padding: 1rem 0.75rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 3rem;
+    background-color: #707070;
+    color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 300ms;
+    font-weight: 600;
+    font-size: .9rem;
+  }
+  
+  form .submit:hover {
+    background-color: #002feb;
+    color: #ffffff;
+  }
+  
+  .span {
+    text-decoration: none;
+    color: #ece9e9;
+  }
+  
+  .span a {
+    color: #002feb;
+  }
+  /* FIN FORMULAIRE */
 @media (max-width: 768px) {
     .navbar ul {
         text-align: center;
