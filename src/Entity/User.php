@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -15,23 +18,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 15, unique: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 15,
+        minMessage: 'Your first name must be at least {{ 3 }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ 15 }} characters',
+    )]
     private ?string $pseudo = null;
 
-    #[ORM\Column]
+    /*  à vérifier */
+    #[ORM\Column(length: 30)]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 8,
+        minMessage: 'Your first name must be at least {{ 8 }} characters long',
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $motDePasse = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -40,10 +51,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    private ?bool $validated = null;
+    private ?bool $validated = false;
 
     #[ORM\Column(length: 255)]
     private ?string $role = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
+    private Collection $userQuizzScores;
+
+    public function __construct()
+    {
+        $this->userQuizzScores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,18 +146,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): static
-    {
-        $this->motDePasse = $motDePasse;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
@@ -177,12 +184,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRole(): ?string
     {
+        $role[] = 'ROLE_USER';
         return $this->role;
     }
 
     public function setRole(string $role): static
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserQuizzScore>
+     */
+    public function getUserQuizzScores(): Collection
+    {
+        return $this->userQuizzScores;
+    }
+
+    public function addUserQuizzScore(UserQuizzScore $userQuizzScore): static
+    {
+        if (!$this->userQuizzScores->contains($userQuizzScore)) {
+            $this->userQuizzScores->add($userQuizzScore);
+            $userQuizzScore->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserQuizzScore(UserQuizzScore $userQuizzScore): static
+    {
+        if ($this->userQuizzScores->removeElement($userQuizzScore)) {
+            // set the owning side to null (unless already changed)
+            if ($userQuizzScore->getUser() === $this) {
+                $userQuizzScore->setUser(null);
+            }
+        }
 
         return $this;
     }
