@@ -26,12 +26,13 @@ class RegistrationFormType extends AbstractType
             ->add('pseudo', TextType::class, [
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a pseudo',
+                        'message' => 'Veuillez entrer un pseudo',
                     ]),
                     new Length([
                         'min' => 3,
-                        'minMessage' => 'Your pseudo should be at least {{ limit }} characters',
-                        'max' => 255,
+                        'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
+                        'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères',
+                        'max' => 30,
                     ]),
                 ]
             ])
@@ -46,7 +47,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => "Veuillez accepter les termes d'utilisation.",
                     ]),
                 ],
             ])
@@ -57,13 +58,14 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez entrer un mot de passe.',
                     ]),
                     new Length([
                         'min' => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
+                        'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
-                        'max' => 4096,
+                        'max' => 255,
                     ]),
                     new PasswordStrength([
                         'minScore' => PasswordStrength::STRENGTH_MEDIUM,
