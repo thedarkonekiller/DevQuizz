@@ -11,8 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NoSuspiciousCharacters;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
 
@@ -21,8 +23,25 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo', TextType::class, [])
-            ->add('email', EmailType::class, [])
+            ->add('pseudo', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a pseudo',
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Your pseudo should be at least {{ limit }} characters',
+                        'max' => 255,
+                    ]),
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'constraints' => [
+                    new Email([
+                        'message' => "Email invalide"
+                    ])
+                ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -47,9 +66,10 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                     new PasswordStrength([
-                        'minScore' => PasswordStrength::STRENGTH_STRONG,
+                        'minScore' => PasswordStrength::STRENGTH_MEDIUM,
                         'message' => "Votre mot de passe n'est pas assez fort"
                     ]),
+                   
                 ],
             ])
         ;
