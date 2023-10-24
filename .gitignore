@@ -61,3 +61,4 @@ yarn-error.log
 ###> symfony/asset-mapper ###
 /public/assets/
 ###< symfony/asset-mapper ###
+package-lock.json
