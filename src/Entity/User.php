@@ -12,6 +12,9 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -27,6 +30,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Your first name cannot be longer than {{ 15 }} characters',
     )]
     private ?string $pseudo = null;
+
+   /*  à vérifier */
+    #[ORM\Column(length: 30)]
+    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -52,6 +59,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\Column]
+    private ?bool $validated = false;
+
+    #[ORM\Column(length: 255)]
+    private ?string $role = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
+    private Collection $userQuizzScores;
+
+    public function __construct()
+    {
+        $this->userQuizzScores = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +166,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updated_at;
@@ -159,6 +202,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getRole(): ?string
+    {
+        $role[] = 'ROLE_USER';
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserQuizzScore>
+     */
+    public function getUserQuizzScores(): Collection
+    {
+        return $this->userQuizzScores;
+    }
+
+    public function addUserQuizzScore(UserQuizzScore $userQuizzScore): static
+    {
+        if (!$this->userQuizzScores->contains($userQuizzScore)) {
+            $this->userQuizzScores->add($userQuizzScore);
+            $userQuizzScore->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserQuizzScore(UserQuizzScore $userQuizzScore): static
+    {
+        if ($this->userQuizzScores->removeElement($userQuizzScore)) {
+            // set the owning side to null (unless already changed)
+            if ($userQuizzScore->getUser() === $this) {
+                $userQuizzScore->setUser(null);
+            }
+        }
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;

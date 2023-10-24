@@ -14,14 +14,14 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-# Composer PHAR
-/composer.phar
-
-# Backup entities generated with doctrine:generate:entities command
-**/Entity/*~
-
-# Embedded web-server pid file
-/.web-server-pid
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+composer.lock
+.env
+.gitignore
+.env.test
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
