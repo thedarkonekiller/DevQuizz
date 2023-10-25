@@ -1,15 +1,17 @@
  <header>
     <div class="navbar">
         <ul>
+        {# inscription et Connexion doit etre caché lorsqu'on est connecté #}
             <li><a href="#">Inscription</a></li>
             <li><a href="#">Connexion</a></li>
+            {# Deconnexion doit etre caché lorsqu'on est pas connecter #}
             <li><a href="#">Deconnexion</a></li>
         </ul>
     </div>
     <div class="navbar2">
       
       <ul>
-        <li><img id="icone" src="favidev.png" alt="icone"></li>
+        <li><img id="icone" src="{{ asset('assets/images/favi.png') }}" alt="icone"></li>
         <div id="nav__right">
           <li><a href="#">Quiz</a></li>
           <li><a href="#">Resultat</a></li>
