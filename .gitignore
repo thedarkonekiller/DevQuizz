@@ -14,30 +14,9 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
 ###< symfony/phpunit-bridge ###
 composer.lock
 .env
 .gitignore
 .env.test
-
-###> symfony/webpack-encore-bundle ###
 /node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
-
-###> symfony/asset-mapper ###
-/public/assets/
-###< symfony/asset-mapper ###
-package-lock.json
-composer.lock
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-.env
-.env.test
