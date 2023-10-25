@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Changez votre mot de pass{% endblock %}
+
+{% block body %}
+<section class="body_form">
+    <form class="form" method="POST" action="">
+        <h1>Nouveau mot de passe</h1>
+        <label for="mdp" class="label">Mot de passe</label>
+        <input type="password" name="mdp" id="password" autocomplete="off"></span>
+        <input class="submit" type="submit" name="envoi" value="Reinitialiser"></span>
+
+        <a href="index.html">Retour sur la page d'accueil</a>
+    </form>
+</section>
+{% endblock %}
