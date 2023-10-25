@@ -66,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userQuizzScores = new ArrayCollection();
     }
 
-    public function getId(): ?int
+     public function getId(): ?int
     {
         return $this->id;
     }
@@ -209,4 +209,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 //        }
 //        return $this;
 //    }
+
 }
