@@ -23,8 +23,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(
         min: 3,
         max: 15,
-        minMessage: 'Your first name must be at least {{ 3 }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ 15 }} characters',
+        minMessage: 'Votre pseudo doit contenir au minimum {{ limit }} caractères',
+        maxMessage: 'Votre pseudo doit contenir au maximum {{ limit }} caractères',
     )]
     private ?string $pseudo = null;
 
@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG)]
     #[Assert\Length(
         min: 8,
-        minMessage: 'Your first name must be at least {{ 8 }} characters long',
+        minMessage: 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
     )]
     private string $password;
 

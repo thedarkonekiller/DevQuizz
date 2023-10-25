@@ -30,18 +30,20 @@ class RegistrationFormType extends AbstractType
                     ]),
                     new Length([
                         'min' => 3,
-                        'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
-                        'maxMessage' => 'Votre mot de passe doit contenir au maximum {{ limit }} caractères',
+                        'minMessage' => 'Votre pseudo doit contenir au minimum {{ limit }} caractères',
+                        'maxMessage' => 'Votre pseudo doit contenir au maximum {{ limit }} caractères',
                         'max' => 30,
                     ]),
-                ]
+                ],
+                'attr' => ['placeholder' => "Votre pseudo"]
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new Email([
                         'message' => "Email invalide"
                     ])
-                ]
+                    ],
+                'attr' => ['placeholder' => "Votre email"]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -73,6 +75,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                    
                 ],
+                'attr' => ['placeholder' => "Votre mot de passe"]
             ])
         ;
     }
