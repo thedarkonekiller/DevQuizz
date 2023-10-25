@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -15,35 +19,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 15, unique: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 15,
+        minMessage: 'Your first name must be at least {{ 3 }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ 15 }} characters',
+    )]
     private ?string $pseudo = null;
-
-    #[ORM\Column]
-    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(length:255)]
+    #[Assert\NotCompromisedPassword]
+    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG)]
+    #[Assert\Length(
+        min: 8,
+        minMessage: 'Your first name must be at least {{ 8 }} characters long',
+    )]
+    private string $password;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $motDePasse = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_at;
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    private ?bool $validated = null;
+    private array $roles = [];
 
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $isVerified = false;
 
     public function getId(): ?int
     {
@@ -78,13 +86,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // guarantee every user at least has user
+        $roles[] = 'user';
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -127,30 +135,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getMotDePasse(): ?string
-    {
-        return $this->motDePasse;
-    }
-
-    public function setMotDePasse(string $motDePasse): static
-    {
-        $this->motDePasse = $motDePasse;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updated_at;
@@ -163,26 +147,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function isVerified(): bool
     {
-        return $this->validated;
+        return $this->isVerified;
     }
 
-    public function setValidated(bool $validated): static
+    public function setIsVerified(bool $isVerified): static
     {
-        $this->validated = $validated;
+        $this->isVerified = $isVerified;
 
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->role;
+        return $this->created_at;
     }
 
-    public function setRole(string $role): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
     {
-        $this->role = $role;
+        $this->created_at = $created_at;
 
         return $this;
     }
