@@ -58,12 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Your first name must be at least {{ 8 }} characters long',
     )]
 
-    #[ORM\Column]
-    private ?bool $validated = false;
-
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
     private Collection $userQuizzScores;
 
