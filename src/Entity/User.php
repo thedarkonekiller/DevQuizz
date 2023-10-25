@@ -52,10 +52,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
-    #[Assert\Length(
-        min: 8,
-        minMessage: 'Your first name must be at least {{ 8 }} characters long',
-    )]
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
     private Collection $userQuizzScores;
