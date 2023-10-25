@@ -10,11 +10,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\PasswordStrength;
-
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -31,10 +27,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Votre pseudo doit contenir au maximum {{ limit }} caractères',
     )]
     private ?string $pseudo = null;
-
-   /*  à vérifier */
-    #[ORM\Column(length: 30)]
-    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -60,17 +52,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
-    private ?string $password = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
     #[ORM\Column]
     private ?bool $validated = false;
 
@@ -85,21 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userQuizzScores = new ArrayCollection();
     }
 
-    #[ORM\Column]
-    private ?bool $validated = false;
-
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
-    private Collection $userQuizzScores;
-
-    public function __construct()
-    {
-        $this->userQuizzScores = new ArrayCollection();
-    }
-
-    public function getId(): ?int
+     public function getId(): ?int
     {
         return $this->id;
     }
@@ -177,18 +144,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
 
         return $this;
     }
