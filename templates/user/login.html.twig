@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Connectez vous afin de participer à nos merveilleux QUIZZ{% endblock %}
+
+{% block body %}
+<section class="body_form">
+    <form class="form" method="POST" action="">
+        <h1>Connexion</h1>
+        <span class="input-span">
+            <label for="pseudo" class="label">Pseudo</label>
+            <input type="text" name="pseudo" id="pseudo" autocomplete="off"></span>
+        <span class="input-span">
+            <label for="mdp" class="label">Mot de passe</label>
+            <input type="password" name="mdp" id="password" autocomplete="off"></span>
+        <input class="submit" type="submit" name="envoi" value="Connexion"></span>
+        <span class="span">Vous n'avez pas de compte ? <a href="#">Inscrivez vous</a></span>
+        <span class="span">Mot de passe oublié ? <a href="#">Changez votre mot de passe</a></span>
+        <a href="index.html">Retour sur la page d'accueil</a>
+    </form>
+</section>
+{% endblock %}
