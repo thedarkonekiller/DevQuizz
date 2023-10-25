@@ -13,6 +13,14 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -28,6 +36,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Votre pseudo doit contenir au maximum {{ limit }} caractères',
     )]
     private ?string $pseudo = null;
+
+        minMessage: 'Your first name must be at least {{ 3 }} characters long',
+        maxMessage: 'Your first name cannot be longer than {{ 15 }} characters',
+    )]
+    private ?string $pseudo = null;
+
+   /*  à vérifier */
+    #[ORM\Column(length: 30)]
+    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -53,6 +70,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
+    #[Assert\Length(
+        min: 8,
+        minMessage: 'Your first name must be at least {{ 8 }} characters long',
+    )]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
     private ?bool $validated = false;
@@ -103,11 +134,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has user
         $roles[] = 'user';
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
@@ -182,8 +216,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+    public function isValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): static
+    {
+        $this->validated = $validated;
 
         return $this;
     }
 
+    public function getRole(): ?string
+    {
+        $role[] = 'ROLE_USER';
+        return $this->role;
+    }
+
+    public function setRole(string $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserQuizzScore>
+     */
+    public function getUserQuizzScores(): Collection
+    {
+        return $this->userQuizzScores;
+    }
+
+    public function addUserQuizzScore(UserQuizzScore $userQuizzScore): static
+    {
+        if (!$this->userQuizzScores->contains($userQuizzScore)) {
+            $this->userQuizzScores->add($userQuizzScore);
+            $userQuizzScore->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserQuizzScore(UserQuizzScore $userQuizzScore): static
+    {
+        if ($this->userQuizzScores->removeElement($userQuizzScore)) {
+            // set the owning side to null (unless already changed)
+            if ($userQuizzScore->getUser() === $this) {
+                $userQuizzScore->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }
