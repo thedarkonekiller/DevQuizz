@@ -34,3 +34,4 @@ yarn-error.log
 /public/assets/
 ###< symfony/asset-mapper ###
 package-lock.json
+composer.lock
