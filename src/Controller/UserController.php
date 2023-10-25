@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Form\LoginFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,11 +18,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/signUp', name: 'user_signUp')]
-    public function signUp(): Response
-    {
-        return $this->render('user/register.html.twig', []);
-    }
-
+    
     
 }
