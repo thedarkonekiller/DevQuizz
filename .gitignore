@@ -22,3 +22,5 @@ composer.lock
 .env
 .gitignore
 .env.test
+composer.lock
+node_modules
