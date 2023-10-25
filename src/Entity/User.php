@@ -33,12 +33,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length:255)]
     #[Assert\NotCompromisedPassword]
-    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_VERY_STRONG)]
+    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG)]
     #[Assert\Length(
         min: 8,
         minMessage: 'Your first name must be at least {{ 8 }} characters long',
     )]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -47,11 +47,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(length: 11, options: ["default" => "user"])]
-    private ?string $roles = "user";
+    #[ORM\Column]
+    private array $roles = [];
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private ?bool $isVerified = false;
 
     public function getId(): ?int
     {
@@ -86,13 +86,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+        // guarantee every user at least has user
         $roles[] = 'user';
 
         return array_unique($roles);
     }
 
-    public function setRoles(string $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
