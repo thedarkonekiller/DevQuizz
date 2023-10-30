@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length:255)]
     #[Assert\NotCompromisedPassword]
-    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG)]
+    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_WEAK)]
     #[Assert\Length(
         min: 8,
         minMessage: 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
