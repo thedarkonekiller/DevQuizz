@@ -2,19 +2,23 @@
 {% block title %}Inscrivez vous afin de participer à nos merveilleux QUIZZ{% endblock %}
 
 {% block body %}
-<section class="body_form">
-    <form class="form" method="POST" action="">
-        <h1>Inscription</h1>
-        <span class="input-span">
-            <label for="pseudo" class="label">Pseudo</label>
-            <input type="text" name="pseudo" autocomplete="off"></span>
-        <label for="email" class="label">E-mail</label>
-        <input type="mail" name="email" autocomplete="off"></span>
-        <label for="mdp" class="label">Mot de passe</label>
-        <input type="password" name="mdp" id="password" autocomplete="off"></span>
-        <input class="submit" type="submit" name="envoi" value="Inscription">
-        <span class="span">Vous avez déjà un compte ? <a href="./loginForm.php">Connectez-vous</a></span>
-        <a href="./index.html">Retour sur la page d'accueil</a>
-    </form>
-</section>
+{#<section class="body_form">#}
+{#    <form class="form" method="POST" action="">#}
+{#        <h1>Inscription</h1>#}
+{#        <span class="input-span">#}
+{#            <label for="pseudo" class="label">Pseudo</label>#}
+{#            <input type="text" name="pseudo" autocomplete="off"></span>#}
+{#        <label for="email" class="label">E-mail</label>#}
+{#        <input type="mail" name="email" autocomplete="off"></span>#}
+{#        <label for="mdp" class="label">Mot de passe</label>#}
+{#        <input type="password" name="mdp" id="password" autocomplete="off"></span>#}
+{#        <input class="submit" type="submit" name="envoi" value="Inscription">#}
+{#        <span class="span">Vous avez déjà un compte ? <a href="./loginForm.php">Connectez-vous</a></span>#}
+{#        <a href="./index.html">Retour sur la page d'accueil</a>#}
+{#    </form>#}
+{#</section>#}
+
+    {{ form_start(registrationForm) }}
+    <button type="submit">enregistrer</button>
+    {{ form_end(registrationForm) }}
 {% endblock %}
