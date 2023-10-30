@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -22,39 +23,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(
         min: 3,
         max: 15,
-        minMessage: 'Your first name must be at least {{ 3 }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ 15 }} characters',
+        minMessage: 'Votre pseudo doit contenir au minimum {{ limit }} caractères',
+        maxMessage: 'Votre pseudo doit contenir au maximum {{ limit }} caractères',
     )]
     private ?string $pseudo = null;
-
-   /*  à vérifier */
-    #[ORM\Column(length: 30)]
-    private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column(length:255)]
+    #[Assert\NotCompromisedPassword]
+    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG)]
     #[Assert\Length(
         min: 8,
-        minMessage: 'Your first name must be at least {{ 8 }} characters long',
+        minMessage: 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
     )]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_at;
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    private ?bool $validated = false;
+    private array $roles = [];
 
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $isVerified = false;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
     private Collection $userQuizzScores;
@@ -64,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userQuizzScores = new ArrayCollection();
     }
 
-    public function getId(): ?int
+     public function getId(): ?int
     {
         return $this->id;
     }
@@ -97,13 +94,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        // guarantee every user at least has user
+        $roles[] = 'user';
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -170,58 +166,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isValidated(): ?bool
+    public function isVerified(): bool
     {
-        return $this->validated;
+        return $this->isVerified;
     }
 
-    public function setValidated(bool $validated): static
+    public function setIsVerified(bool $isVerified): static
     {
-        $this->validated = $validated;
+        $this->isVerified = $isVerified;
 
         return $this;
     }
+//
+//    /**
+//     * @return Collection<int, UserQuizzScore>
+//     */
+//    public function getUserQuizzScores(): Collection
+//    {
+//        return $this->userQuizzScores;
+//    }
+//    public function addUserQuizzScore(UserQuizzScore $userQuizzScore): static
+//    {
+//        if (!$this->userQuizzScores->contains($userQuizzScore)) {
+//            $this->userQuizzScores->add($userQuizzScore);
+//            $userQuizzScore->setUser($this);
+//        }
+//
+//        return $this;
+//    }
+//    public function removeUserQuizzScore(UserQuizzScore $userQuizzScore): static
+//    {
+//        if ($this->userQuizzScores->removeElement($userQuizzScore)) {
+//            // set the owning side to null (unless already changed)
+//            if ($userQuizzScore->getUser() === $this) {
+//                $userQuizzScore->setUser(null);
+//            }
+//        }
+//        return $this;
+//    }
 
-    public function getRole(): ?string
-    {
-        $role[] = 'ROLE_USER';
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, UserQuizzScore>
-     */
-    public function getUserQuizzScores(): Collection
-    {
-        return $this->userQuizzScores;
-    }
-
-    public function addUserQuizzScore(UserQuizzScore $userQuizzScore): static
-    {
-        if (!$this->userQuizzScores->contains($userQuizzScore)) {
-            $this->userQuizzScores->add($userQuizzScore);
-            $userQuizzScore->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserQuizzScore(UserQuizzScore $userQuizzScore): static
-    {
-        if ($this->userQuizzScores->removeElement($userQuizzScore)) {
-            // set the owning side to null (unless already changed)
-            if ($userQuizzScore->getUser() === $this) {
-                $userQuizzScore->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }

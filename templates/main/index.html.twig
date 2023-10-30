@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Les Quizz du Developpeur</h1>
+        <section id="sect1">
+            <div id="left">
+                <h2>Découvrez notre collection de quiz passionnants dans divers domaines, voici comment ça marche :</h2>
+                <ul id="descListe">
+                    <li><strong>Choisissez un Quiz :</strong> Parcourez notre sélection de quiz, de mathématiques à la culture générale, et choisissez celui qui vous intéresse le plus.</li>
+                    <li><strong>Testez Vos Connaissances :</strong> Une fois que vous avez sélectionné un quiz, plongez dans le monde des questions et des réponses. Répondez aux questions avec soin pour voir à quel point vous maîtrisez le sujet.</li>
+                    <li><strong>Trois Tentatives :</strong> Vous avez trois chances pour obtenir la meilleure note possible. Si vous n'êtes pas satisfait de votre résultat la première fois, essayez à nouveau !</li>
+                    <li><strong>Obtenez Votre Note :</strong> Après avoir terminé le quiz, nous calculerons votre note sur 20 points.</li>
+                </ul>
+            </div>
+            <div id="right" >
+                <img id="img_right" src="favidev.webp" alt="">
+            </div>
+        </section>
+        <button class="button"><a href="./formAddQuiz.php">Ajouter un type de Quiz</a></button>
+        <a id="connectez_vous" href="loginForm.php">Connectez-vous pour acceder aux quiz</a>
+        <section id="carousel">
+            <a href="#">
+                <img src="{{ asset('/assets/images/favidev.webp') }}" alt="Image 2" width="100" height="100">
+                <h3>HTML</h3>
+            </a>
+            <a href="#">
+                <img src="{{ asset('/assets/images/favidev.webp') }}" alt="Image 3" width="100" height="100">
+                <h3>CSS</h3>
+            </a>
+            <a href="#">
+                <img src="{{ asset('/assets/images/favidev.webp') }}" alt="Image 4" width="100" height="100">
+                <h3>JS</h3>
+            </a>
+            <a href="#">
+                <img src="{{ asset('/assets/images/favidev.webp') }}" alt="Image 5" width="100" height="100">
+                <h3>PHP</h3>
+            </a>
+        </section>
+    </main>
+{% endblock %}

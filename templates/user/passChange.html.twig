@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}Changez votre mot de pass{% endblock %}
+
+{% block body %}
+<section class="body_form">
+    <form class="form" method="POST" action="">
+        <h1>Mot de passe oublié</h1>
+        <label for="pseudo" class="label">Pseudo</label>
+        <input type="text" name="pseudo" autocomplete="off"></span>
+        <span class="span">Vous allez recevoir un mail sur celui associer à vote pseudo, veuillez le consulter</span>
+        <input class="submit" type="submit" name="envoi" value="Envoyer la demande"></span>
+
+
+        <a href="index.html">Retour sur la page d'accueil</a>
+    </form>
+</section>
+{% endblock %}
