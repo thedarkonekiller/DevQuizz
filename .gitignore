@@ -31,3 +31,6 @@ yarn-error.log
 ###> symfony/asset-mapper ###
 /public/assets/
 ###< symfony/asset-mapper ###
+/.idea/codeception.xml
+/.idea/phpspec.xml
+/config/packages/uid.yaml
