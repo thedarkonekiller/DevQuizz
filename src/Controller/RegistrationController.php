@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('contact@devquizz.fr', 'activation de compte'))
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('emails/confirmation_email.html.twig')
             );
 
             // do anything else you need here, like send an email
@@ -75,12 +75,12 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('user_register');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('user_login');
     }
 }
