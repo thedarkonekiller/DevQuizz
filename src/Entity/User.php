@@ -44,8 +44,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at;
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $updated_at;
 
     #[ORM\Column]
     private array $roles = [];
