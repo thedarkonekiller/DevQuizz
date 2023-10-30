@@ -13,12 +13,13 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
 ###< symfony/phpunit-bridge ###
 composer.lock
 .env
 .gitignore
 .env.test
-/node_modules/.package-lock.json
+/node_modules/
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
@@ -30,4 +31,3 @@ yarn-error.log
 ###> symfony/asset-mapper ###
 /public/assets/
 ###< symfony/asset-mapper ###
-package-lock.json

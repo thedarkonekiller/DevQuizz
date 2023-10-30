@@ -137,7 +137,7 @@ margin-bottom: .625rem;
 .body_form {
     display: flex;
     justify-content: center;
-    background-image: url("./formFond.webp");
+    background-image: url('/public/assets/images/formFond.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
