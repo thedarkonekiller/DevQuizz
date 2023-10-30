@@ -3,18 +3,31 @@
 
 {% block body %}
 <section class="body_form">
-    <form class="form" method="POST" action="">
+
+    {% if app.user %}
+    <div class="my-3 text-secondary">
+        Vous êtes déjà connecté(e) en tant que
+        {{ app.user.userIdentifier }},
+        <a href="{{ path('user_logout') }}" class="text-white hover:text-secondary">Déconnexion</a>
+    </div>
+    {% else %}
+    <form method="post" class="flex flex-col">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
         <h1>Connexion</h1>
         <span class="input-span">
             <label for="pseudo" class="label">Pseudo</label>
             <input type="text" name="pseudo" id="pseudo" autocomplete="off"></span>
         <span class="input-span">
             <label for="mdp" class="label">Mot de passe</label>
-            <input type="password" name="mdp" id="password" autocomplete="off"></span>
+            <input type="password" name="password" id="password" autocomplete="off"></span>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <input class="submit" type="submit" name="envoi" value="Connexion"></span>
-        <span class="span">Vous n'avez pas de compte ? <a href="#">Inscrivez vous</a></span>
+        <span class="span">Vous n'avez pas de compte ? <a href="{{ path('user_register') }}">Inscrivez vous</a></span>
         <span class="span">Mot de passe oublié ? <a href="#">Changez votre mot de passe</a></span>
-        <a href="index.html">Retour sur la page d'accueil</a>
+        <a href="{{ path('home') }}">Retour sur la page d'accueil</a>
     </form>
+    {% endif %}
 </section>
 {% endblock %}
