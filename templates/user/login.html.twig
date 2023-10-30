@@ -25,7 +25,7 @@
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <input class="submit" type="submit" name="envoi" value="Connexion"></span>
         <span class="span">Vous n'avez pas de compte ? <a href="{{ path('user_register') }}">Inscrivez vous</a></span>
-        <span class="span">Mot de passe oublié ? <a href="#">Changez votre mot de passe</a></span>
+        <span class="span">Mot de passe oublié ? <a href="{{ path('app_forgot_password_request') }}">Changez votre mot de passe</a></span>
         <a href="{{ path('home') }}">Retour sur la page d'accueil</a>
     </form>
     {% endif %}
