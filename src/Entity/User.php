@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -34,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(length:255)]
     #[Assert\NotCompromisedPassword]
-    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_STRONG)]
+    #[Assert\PasswordStrength(minScore: PasswordStrength::STRENGTH_WEAK)]
     #[Assert\Length(
         min: 8,
         minMessage: 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
@@ -53,10 +52,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
-    #[Assert\Length(
-        min: 8,
-        minMessage: 'Your first name must be at least {{ 8 }} characters long',
-    )]
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserQuizzScore::class, orphanRemoval: true)]
     private Collection $userQuizzScores;
