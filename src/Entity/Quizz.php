@@ -19,10 +19,10 @@ class Quizz
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -36,6 +36,9 @@ class Quizz
 
     #[ORM\Column]
     private ?int $nb_questions = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -145,6 +148,18 @@ class Quizz
     public function setNbQuestions(int $nb_questions): static
     {
         $this->nb_questions = $nb_questions;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
