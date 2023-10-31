@@ -45,7 +45,7 @@ class QuizzCrudController extends AbstractCrudController
                             'Brouillon' => 'draft',
                             'Publié' => 'published',
                         ],
-                        'placeholder' =>'Veuillez faire un choix',
+                        'placeholder' =>false,
                     ]
                 )
 
