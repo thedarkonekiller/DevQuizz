@@ -21,7 +21,10 @@
             <input type="text" name="pseudo" id="pseudo" autocomplete="off"></span>
         <span class="input-span">
             <label for="mdp" class="label">Mot de passe</label>
-            <input type="password" name="password" id="password" autocomplete="off"></span>
+            <div class="password-eye">
+                <i class="fa-solid fa-eye-slash"></i>
+            <input type="password" class="enterPW" name="password" id="password" autocomplete="off"></span>
+                 </div>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         <input class="submit" type="submit" name="envoi" value="Connexion"></span>
         <span class="span">Vous n'avez pas de compte ? <a href="{{ path('user_register') }}">Inscrivez vous</a></span>

@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('observer', './assets/js/observer.js')
+    .addEntry('password', './assets/js/password.js')
+    .addEntry('connexion', './assets/js/connexion.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
