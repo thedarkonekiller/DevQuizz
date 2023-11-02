@@ -17,5 +17,9 @@ return [
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
+<<<<<<< HEAD
     Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
+=======
+    Symfony\UX\Dropzone\DropzoneBundle::class => ['all' => true],
+>>>>>>> bce6c157af2546ac4b2ad54f46628cf7a5ee1555
 ];

@@ -37,5 +37,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
         yield MenuItem::section('Quiz');
         yield MenuItem::linkToCrud('Les Quiz', 'fa fa-question', Quizz::class);
+<<<<<<< HEAD
+=======
+        yield MenuItem::section('Questions');
+        yield MenuItem::linkToCrud('Questions', 'fa fa-question', Question::class);
+        /* yield MenuItem::section('Propositions de réponse');
+        yield MenuItem::linkToCrud('Propositions de réponse', 'fa fa-question', Choice::class); */
+>>>>>>> bce6c157af2546ac4b2ad54f46628cf7a5ee1555
     }
 }

@@ -1,9 +1,19 @@
 {
     "controllers": {
+<<<<<<< HEAD
         "@symfony/ux-chartjs": {
             "chart": {
                 "enabled": true,
                 "fetch": "eager"
+=======
+        "@symfony/ux-dropzone": {
+            "dropzone": {
+                "enabled": true,
+                "fetch": "eager",
+                "autoimport": {
+                    "@symfony/ux-dropzone/dist/style.min.css": true
+                }
+>>>>>>> bce6c157af2546ac4b2ad54f46628cf7a5ee1555
             }
         }
     },

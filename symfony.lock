@@ -289,7 +289,11 @@
             "./config/packages/uid.yaml"
         ]
     },
+<<<<<<< HEAD
     "symfony/ux-chartjs": {
+=======
+    "symfony/ux-dropzone": {
+>>>>>>> bce6c157af2546ac4b2ad54f46628cf7a5ee1555
         "version": "v2.12.0"
     },
     "symfony/validator": {
