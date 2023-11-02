@@ -11,11 +11,24 @@ use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
 
 class DashboardController extends AbstractDashboardController
 {
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'admin')]
+
+    private ChartBuilderInterface $chartBuilder;
+    public function __construct(ChartBuilderInterface $chartBuilder)
+    {
+        $this->chartBuilder = $chartBuilder;
+    }
+
+    private function createChart(): Chart
+    {
+        
+    }
     public function index(): Response
     {
         //return parent::index();
