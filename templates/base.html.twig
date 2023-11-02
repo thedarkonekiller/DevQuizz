@@ -4,6 +4,9 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="https://kit.fontawesome.com/f33edf1c98.js" crossorigin="anonymous"></script>
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -11,7 +14,12 @@
         {% block javascripts %}
             {{ importmap() }}
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('observer') }}  
+             {{ encore_entry_script_tags('password') }}
+               {{ encore_entry_script_tags('connexion') }}
         {% endblock %}
+        
+     
     </head>
     <body>
     {% include '_included/_header.html.twig' %}
