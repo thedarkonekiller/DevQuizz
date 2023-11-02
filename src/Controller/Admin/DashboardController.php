@@ -19,16 +19,6 @@ class DashboardController extends AbstractDashboardController
 {
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/admin', name: 'admin')]
-    private ChartBuilderInterface $chartBuilder;
-    public function __construct(ChartBuilderInterface $chartBuilder)
-    {
-        $this->chartBuilder = $chartBuilder;
-    }
-
-    private function createChart(): Chart
-    {
-        
-    }
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig', [] );
