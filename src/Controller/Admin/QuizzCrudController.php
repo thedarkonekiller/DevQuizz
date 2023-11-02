@@ -31,19 +31,20 @@ class QuizzCrudController extends AbstractCrudController
 
         ];
 
-        if($pageName === Crud::PAGE_EDIT ){
-            $champs[1]->setRequired(false);
+        if($pageName === Crud::PAGE_NEW){
+            return array_merge($champs);
         }
 
-        if($pageName === Crud::PAGE_INDEX || $pageName === Crud::PAGE_EDIT ){
-
+        if($pageName === Crud::PAGE_EDIT ){
+            $champs[1]->setRequired(false);
+            
             $nouveauxChamps = [
 
-                ChoiceField::new('status','état')->setFormTypeOptions(
+                ChoiceField::new('status')->setFormTypeOptions(
                     [
                         'choices'=>[
-                            'Brouillon' => 'draft',
-                            'Publié' => 'published',
+                            'draft' => 'draft',
+                            'published' => 'published',
                         ],
                         'placeholder' =>false,
                     ]
@@ -55,17 +56,17 @@ class QuizzCrudController extends AbstractCrudController
             ];
             return array_merge($champs, $nouveauxChamps);
         }
-        else{
-            return $champs;
-        }
 
+        if($pageName === Crud::PAGE_INDEX){
+            return array_merge($champs, [TextField::new('status')]);
+        }
     }
 
     public function createEntity(string $entityFqcn){
         $quizz= new Quizz();
         $quizz->setCreatedAt(new \DateTimeImmutable('now'));
         $quizz->setUpdatedAt(new \DateTimeImmutable('now'));
-        $quizz->setStatus("brouillon");
+        $quizz->setStatus("draft");
     
         return $quizz;
     }
