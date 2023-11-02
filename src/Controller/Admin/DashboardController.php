@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Entity\Question;
 use App\Entity\Quizz;
+use App\Entity\Choice;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -36,10 +37,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Général');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
         yield MenuItem::section('Quiz');
-        yield MenuItem::linkToCrud('Les Quiz', 'fa fa-question', Quizz::class);
+        yield MenuItem::linkToCrud('Les Quiz', 'fa fa-receipt', Quizz::class);
         yield MenuItem::section('Questions');
         yield MenuItem::linkToCrud('Questions', 'fa fa-question', Question::class);
-        /* yield MenuItem::section('Propositions de réponse');
-        yield MenuItem::linkToCrud('Propositions de réponse', 'fa fa-question', Choice::class); */
+        yield MenuItem::section('Réponses');
+        yield MenuItem::linkToCrud('Réponses', 'fa fa-check', Choice::class);
     }
 }
