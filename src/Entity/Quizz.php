@@ -40,9 +40,13 @@ class Quizz
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\OneToMany(mappedBy: 'quizz', targetEntity: Question::class)]
+    private Collection $questions;
+
     public function __construct()
     {
         $this->userQuizzScores = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +164,36 @@ class Quizz
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): static
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setQuizz($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): static
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getQuizz() === $this) {
+                $question->setQuizz(null);
+            }
+        }
 
         return $this;
     }
